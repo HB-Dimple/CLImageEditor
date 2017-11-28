@@ -105,11 +105,8 @@ static NSString* const kCLDrawToolEraserIconName = @"eraserIconAssetsName";
 
 - (void)executeWithCompletionBlock:(void (^)(UIImage *, NSError *, NSDictionary *))completionBlock
 {
-    UIImage *backgroundImage = self.editor.imageView.image;
-    UIImage *foregroundImage = _drawingView.image;
-
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self buildImageWithBackgroundImage:backgroundImage foregroundImage:foregroundImage];
+        UIImage *image = [self buildImage];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock(image, nil, nil);
@@ -336,12 +333,12 @@ static NSString* const kCLDrawToolEraserIconName = @"eraserIconAssetsName";
     UIGraphicsEndImageContext();
 }
 
-- (UIImage*)buildImageWithBackgroundImage:(UIImage*)backgroundImage foregroundImage:(UIImage*)foregroundImage
+- (UIImage*)buildImage
 {
-    UIGraphicsBeginImageContextWithOptions(_originalImageSize, NO, backgroundImage.scale);
+    UIGraphicsBeginImageContextWithOptions(_originalImageSize, NO, self.editor.imageView.image.scale);
     
-    [backgroundImage drawAtPoint:CGPointZero];
-    [foregroundImage drawInRect:CGRectMake(0, 0, _originalImageSize.width, _originalImageSize.height)];
+    [self.editor.imageView.image drawAtPoint:CGPointZero];
+    [_drawingView.image drawInRect:CGRectMake(0, 0, _originalImageSize.width, _originalImageSize.height)];
     
     UIImage *tmp = UIGraphicsGetImageFromCurrentImageContext();
     

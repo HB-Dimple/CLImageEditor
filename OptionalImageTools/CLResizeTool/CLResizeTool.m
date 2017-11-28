@@ -141,9 +141,8 @@ static NSString* const kCLResizeToolChainOffIconName = @"chainOffIconAssetsName"
 
 - (void)executeWithCompletionBlock:(void (^)(UIImage *, NSError *, NSDictionary *))completionBlock
 {
-    CGSize size = _resizePanel.imageSize;
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        CGSize size = _resizePanel.imageSize;
         
         if(size.width>0 && size.height>0){
             UIImage *image = [_originalImage resize:size];
@@ -514,12 +513,7 @@ static NSString* const kCLResizeToolChainOffIconName = @"chainOffIconAssetsName"
 
 - (CGSize)imageSize
 {
-    __block CGSize size = CGSizeZero;
-    
-    safe_dispatch_sync_main(^{
-        size = CGSizeMake(_fieldW.text.floatValue, _fieldH.text.floatValue);
-    });
-    return size;
+    return CGSizeMake(_fieldW.text.floatValue, _fieldH.text.floatValue);
 }
 
 @end

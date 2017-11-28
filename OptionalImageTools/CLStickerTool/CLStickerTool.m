@@ -175,20 +175,13 @@ static NSString* const kCLStickerToolDeleteIconName = @"deleteIconAssetsName";
 
 - (UIImage*)buildImage:(UIImage*)image
 {
-    __block CALayer *layer = nil;
-    __block CGFloat scale = 1;
-
-    safe_dispatch_sync_main(^{
-        scale = image.size.width / _workingView.width;
-        layer = _workingView.layer;
-    });
-    
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     
     [image drawAtPoint:CGPointZero];
     
+    CGFloat scale = image.size.width / _workingView.width;
     CGContextScaleCTM(UIGraphicsGetCurrentContext(), scale, scale);
-    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    [_workingView.layer renderInContext:UIGraphicsGetCurrentContext()];
     
     UIImage *tmp = UIGraphicsGetImageFromCurrentImageContext();
     

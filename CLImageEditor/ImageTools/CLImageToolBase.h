@@ -10,6 +10,7 @@
 #import "../ViewController/_CLImageEditorViewController.h"
 #import "ToolSettings/CLImageToolSettings.h"
 
+#import <UIKit/UIKit.h>
 
 static const CGFloat kCLImageToolAnimationDuration = 0.3;
 static const CGFloat kCLImageToolFadeoutDuration   = 0.2;

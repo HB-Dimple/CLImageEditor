@@ -90,10 +90,10 @@ static NSString* const kCLToneCurveToolResetIconName = @"resetIconAssetsName";
     [self.editor.view addSubview:_menuContainer];
     
     // Adjust for iPhone X
-    if (@available(iOS 11.0, *)) {
-        UIEdgeInsets theInsets = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaInsets;
-        _menuContainer.height += theInsets.bottom;
-    }
+//    if (@available(iOS 11.0, *)) {
+//        UIEdgeInsets theInsets = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaInsets;
+//        _menuContainer.height += theInsets.bottom;
+//    }
     _menuContainer.bottom = self.editor.view.height;
     
     _tonecurveView = [[CLToneCurveView alloc] initWithSuperview:_menuContainer frame:CGRectMake(10, 20, _menuContainer.width-80, 240)];

@@ -9,7 +9,6 @@
 
 #import "CLImageToolBase.h"
 
-
 #pragma mark- _CLImageEditorViewController
 
 static const CGFloat kNavBarHeight = 44.0f;
@@ -106,6 +105,7 @@ static const CGFloat kMenuBarHeight = 80.0f;
         CGFloat dy = ([UIDevice iosVersion]<7) ? 0 : MIN([UIApplication sharedApplication].statusBarFrame.size.height, [UIApplication sharedApplication].statusBarFrame.size.width);
         
         UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, dy, self.view.width, kNavBarHeight)];
+        navigationBar.tintColor = [UIColor clearColor];
         [navigationBar pushNavigationItem:navigationItem animated:NO];
         navigationBar.delegate = self;
         
@@ -129,6 +129,7 @@ static const CGFloat kMenuBarHeight = 80.0f;
         _navigationBar.topItem.title = self.title;
     }
     
+    _navigationBar.barStyle = UIBarStyleBlackTranslucent;
     if([UIDevice iosVersion] < 7){
         _navigationBar.barStyle = UIBarStyleBlackTranslucent;
     }
@@ -140,10 +141,10 @@ static const CGFloat kMenuBarHeight = 80.0f;
         UIScrollView *menuScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, kMenuBarHeight)];
         
         // Adjust for iPhone X
-        if (@available(iOS 11.0, *)) {
-            UIEdgeInsets theInsets = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaInsets;
-            menuScroll.height += theInsets.bottom;
-        }
+//        if (@available(iOS 11.0, *)) {
+//            UIEdgeInsets theInsets = [UIApplication sharedApplication].keyWindow.rootViewController.view.safeAreaInsets;
+//            menuScroll.height += theInsets.bottom;
+//        }
         
         menuScroll.top = self.view.height - menuScroll.height;
         menuScroll.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;

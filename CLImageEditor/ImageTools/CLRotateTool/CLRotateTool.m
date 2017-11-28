@@ -150,10 +150,8 @@ static NSString* const kCLRotateToolCropRotate = @"cropRotateEnabled";
         [indicator startAnimating];
     });
     
-    UIImage *originalImage = self.editor.imageView.image;
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self buildImage:originalImage];
+        UIImage *image = [self buildImage:self.editor.imageView.image];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             _executed = YES;
@@ -261,13 +259,8 @@ static NSString* const kCLRotateToolCropRotate = @"cropRotateEnabled";
 
 - (CATransform3D)rotateTransform:(CATransform3D)initialTransform clockwise:(BOOL)clockwise
 {
-    __block CGFloat rotateValue = 0;
-    safe_dispatch_sync_main(^{
-        rotateValue = _rotateSlider.value;
-    });
-    
     CGFloat orientationOffset = _fineRotationEnabled ? _orientation * M_PI_2 : 0;
-    _rotationArg = orientationOffset + rotateValue*(_fineRotationEnabled ? M_PI_4 : M_PI);
+    _rotationArg = orientationOffset + _rotateSlider.value*(_fineRotationEnabled ? M_PI_4 : M_PI);
     if(!clockwise){
         _rotationArg *= -1;
     }
@@ -283,6 +276,9 @@ static NSString* const kCLRotateToolCropRotate = @"cropRotateEnabled";
 - (void)rotateStateDidChange
 {
     CATransform3D transform = [self rotateTransform:CATransform3DIdentity clockwise:YES];
+
+    CGFloat orientationOffset = _fineRotationEnabled ? _orientation * M_PI_2 : 0;
+    _rotationArg = orientationOffset + _rotateSlider.value*(_fineRotationEnabled ? M_PI_4 : M_PI);
     CGFloat Wnew = fabs(_initialRect.size.width * cos(_rotationArg)) + fabs(_initialRect.size.height * sin(_rotationArg));
     CGFloat Hnew = fabs(_initialRect.size.width * sin(_rotationArg)) + fabs(_initialRect.size.height * cos(_rotationArg));
 

@@ -296,16 +296,3 @@
 }
 
 @end
-
-
-void safe_dispatch_sync_main(DISPATCH_NOESCAPE dispatch_block_t block)
-{
-    if([NSThread isMainThread]){
-        block();
-    }
-    else{
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            block();
-        });
-    }
-}
